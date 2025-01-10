@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Marks</title>
+</head>
+<body>
+    <div class="container" align="center">
+        <form method="POST">
+            {% csrf_token %}
+
+            <ul>
+             {{form.as_ul}}
+            </ul>
+
+
+<!--            <label for="exam_type">Exam Type:</label>-->
+<!--            <input type="text" name="exam_type" id="exam_type" required><br><br>-->
+
+<!--            <label for="class_room">Class Room:</label>-->
+<!--            <input type="text" name="class_room" id="class_room" required>-->
+<!--            </input><br><br>-->
+
+<!--            <label for="student">Student:</label>-->
+<!--            <input type="text" name="student" id="student" required>-->
+<!--            </input><br><br>-->
+
+<!--            <label for="sub1">Telugu:</label>-->
+<!--            <input type="number" name="sub1" id="sub1" required><br><br>-->
+
+<!--            <label for="sub2">Hindi:</label>-->
+<!--            <input type="number" name="sub2" id="sub2" required><br><br>-->
+
+<!--            <label for="sub3">English:</label>-->
+<!--            <input type="number" name="sub3" id="sub3" required><br><br>-->
+
+<!--            <label for="sub4">Maths:</label>-->
+<!--            <input type="number" name="sub4" id="sub4" required><br><br>-->
+
+<!--            <label for="sub5">Science:</label>-->
+<!--            <input type="number" name="sub5" id="sub5" required><br><br>-->
+
+<!--            <label for="sub6">Social:</label>-->
+<!--            <input type="number" name="sub6" id="sub6" required><br><br>-->
+
+<!--            <label for="total">Total:</label>-->
+<!--            <input type="number" name="total" id="total" disabled><br><br>-->
+
+            <button type="submit">Save Exam</button>
+    </form>
+    </div>
+</body>
+</html>
