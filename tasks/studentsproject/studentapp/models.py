@@ -11,11 +11,23 @@ class ClassRoom(models.Model):
             return "NA"
         return self.name
 
+class Teacher(models.Model):
+    teacher_name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.teacher_name
+
 class Subject(models.Model):
     subject_name = models.CharField(max_length=15)
 
     def __str__(self):
         return self.subject_name
+
+class Hobbies(models.Model):
+    hobby = models.CharField(max_length=15,default=None,null=True)
+
+    def __str__(self):
+        return self.hobby
 
 class ClassWiseStudent(models.Model):
     student = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -26,11 +38,12 @@ class ClassWiseStudent(models.Model):
 
 class ClassRoomWiseSubjectWithTeacher(models.Model):
     class_room = models.ForeignKey(ClassRoom, on_delete=models.SET_NULL, null=True)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True)
-    teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    # subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True)
+    teacher_name = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
+    student_name = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
 
     def __str__(self):
-        return f"{self.class_room} - {self.subject} - {self.teacher}"
+        return f"{self.class_room} - {self.teacher_name} - {self.student_name}"
 
 class ExamType(models.Model):
     exam_type = models.CharField(max_length=20)
@@ -43,12 +56,14 @@ class Exam(models.Model):
     exam_type = models.ForeignKey(ExamType, on_delete=models.SET_NULL, null=True)
     class_room = models.ForeignKey(ClassRoom, on_delete=models.SET_NULL, null=True)
     student = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    teacher = models.ForeignKey(Teacher,on_delete=models.SET_NULL,null=True)
     sub1 = models.PositiveIntegerField(verbose_name="telugu")
     sub2 = models.PositiveIntegerField(verbose_name="hindi")
     sub3 = models.PositiveIntegerField(verbose_name="english")
     sub4 = models.PositiveIntegerField(verbose_name="maths")
     sub5 = models.PositiveIntegerField(verbose_name="Science")
     sub6 = models.PositiveIntegerField(verbose_name="social")
+    hobby = models.ManyToManyField(Hobbies)
     total = models.PositiveIntegerField(null = True,default=None, blank=True)
 
 
@@ -73,30 +88,18 @@ class FailedStudent(models.Model):
     status = models.CharField(max_length=10,default=None,null=True,blank=True)
 
 
-    # def check_failed_students(self):
-    #     # class_6 = ClassRoom.objects.filter(name="class6").first()
-    #
-    #     exams = Exam.objects.filter(class_room="class6")
-    #     for exam in exams:
-    #         if (exam.sub1 < 35 or exam.sub2 < 35 or exam.sub3 < 35 or
-    #                 exam.sub4 < 35 or exam.sub5 < 35 or exam.sub6 < 35):
-    #             failed_student, created = FailedStudent.objects.get_or_create(
-    #                 student=exam.student,
-    #                 class_room=exam.class_room,
-    #                 exam_type=exam.exam_type,
-    #                 defaults={'status': 'failed'}
-    #             )
-    #             if not created:
-    #                 failed_student.status = 'failed'
-    #                 failed_student.save()
-    #     return []
-
     def __str__(self):
         return f" {self.student} - {self.class_room} - {self.exam_type}"
 
 
 
+class StudentWithHobbies(models.Model):
+    student = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    hobby = models.ManyToManyField(Hobbies)
+    total = models.ForeignKey(Exam, on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+        return f"{self.student} - {self.hobby} - {self.total}"
 
 
 
